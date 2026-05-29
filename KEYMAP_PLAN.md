@@ -2,114 +2,129 @@
 
 ## Hardware
 
-- **Board**: Piantor Pro BT (split ergonomic, nRF52840 + Bluetooth)
+- **Board**: Piantor Pro BT (split ergonomic, nRF52840 + Bluetooth, **ANSI/US**)
 - **Layout**: 42 keys — 3 rows × 6 columns per half + 3 thumb keys per half
-- **File to edit**: `config/piantor_pro_bt.keymap`
+- **Files**:
+  - `config/piantor_pro_bt.keymap` (the keymap)
+  - `config/piantor_pro_bt.conf` (Kconfig — mouse enabled here)
+- **OS context**: macOS, typing on a **US QWERTY** layout. `CMD = LGUI`, `OPT = LALT`.
+
+### Key position index (0-based, as ZMK numbers them)
+
+```
+ 0  1  2  3  4  5      6  7  8  9 10 11
+12 13 14 15 16 17     18 19 20 21 22 23
+24 25 26 27 28 29     30 31 32 33 34 35
+         36 37 38     39 40 41
+```
 
 ---
 
-## Current Layout (baseline)
+## Layer Map
 
-### Layer 0 — QWERTY (default)
-
-```
-┌───────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬───────┐
-│  TAB  │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ BSPC  │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│ LCTRL │ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │  '    │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│ LSHFT │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │  ESC  │
-└───────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴───────┘
-                  ┌────┬────┬─────┐ ┌─────┬─────┬──────┐
-                  │GUI │LWR │ SPC │ │ ENT │ RSE │ RALT │
-                  └────┴────┴─────┘ └─────┴─────┴──────┘
-```
-
-### Layer 1 — NUMBER (hold LWR)
-
-```
-┌───────┬────┬────┬────┬────┬──────┐   ┌────┬────┬────┬─────┬───┬───────┐
-│  TAB  │ 1  │ 2  │ 3  │ 4  │  5   │   │ 6  │ 7  │ 8  │  9  │ 0 │ BSPC  │
-├───────┼────┼────┼────┼────┼──────┤   ├────┼────┼────┼─────┼───┼───────┤
-│ LCTRL │BT1 │BT2 │BT3 │BT4 │ BT5  │   │ ← │ ↓  │ ↑  │  →  │   │       │
-├───────┼────┼────┼────┼────┼──────┤   ├────┼────┼────┼─────┼───┼───────┤
-│ LSHFT │BTCL│RGB │RST │BOOT│UNLCK │   │    │    │    │     │   │       │
-└───────┴────┴────┴────┴────┴──────┘   └────┴────┴────┴─────┴───┴───────┘
-                    ┌────┬──────┬─────┐ ┌─────┬──────┬──────┐
-                    │GUI │(held)│ SPC │ │ GUI │      │ SPC  │
-                    └────┴──────┴─────┘ └─────┴──────┴──────┘
-```
-
-### Layer 2 — SYMBOL (hold RSE)
-
-```
-┌───────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬───────┐
-│  TAB  │ ! │ @ │ # │ $ │ % │   │ ^ │ & │ * │ ( │ ) │ BSPC  │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│ LCTRL │   │   │   │   │   │   │ - │ = │ [ │ ] │ \ │   `   │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│ LSHFT │   │   │   │   │   │   │ _ │ + │ { │ } │ | │   ~   │
-└───────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴───────┘
-                  ┌────┬──────┬─────┐ ┌─────┬──────┬──────┐
-                  │GUI │      │ SPC │ │ ENT │(held)│ RALT │
-                  └────┴──────┴─────┘ └─────┴──────┴──────┘
-```
-
-### Layers 3–8 — EXTRA 1–6
-
-All keys are `&trans` (transparent / unused).
-
----
-
-## Layer Index
-
-| # | Name | How to reach |
+| # | Name | Reached by |
 |---|---|---|
-| 0 | QWERTY | default |
-| 1 | _TBD_ | hold left inner thumb (MO 1) |
-| 2 | _TBD_ | hold right inner thumb (MO 2) |
-| 3 | _TBD_ | hold MO 1 + MO 2 simultaneously (tri-layer) |
-| 4 | _TBD_ | hold left outer thumb (ENTER key) |
-| 5 | _TBD_ | hold right inner thumb (SPACE key) |
-| 6–8 | EXTRA 4–6 | _TBD_ |
+| 0 | BASE | default |
+| 1 | SYMBOL | hold `MO 1` (left inner thumb) |
+| 2 | NUMBER | hold `MO 2` (right inner thumb) |
+| 3 | NAV | tri-layer: hold `MO 1` + `MO 2` together |
+| 4 | MOUSE | hold ENTER thumb (`&lt 4 RET`, left outer thumb) |
+| 5 | FN | hold SPACE thumb (`&lt 5 SPACE`, right inner thumb) — **reserved/empty** |
+
+Thumb row (base): `GUI · MO1 · ENT(L4)  ‖  SPC(L5) · MO2 · HYPER`
 
 ---
 
-## Proposed Changes
-
-### Layer 0 — QWERTY ✅ decided
-
-**New layout:**
+## Layer 0 — BASE ✅
 
 ```
-┌───────┬───┬───┬───┬───┬───┐   ┌───┬───┬───┬───┬───┬───────┐
-│  ESC  │ Q │ W │ E │ R │ T │   │ Y │ U │ I │ O │ P │ BSPC  │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│  TAB  │ A │ S │ D │ F │ G │   │ H │ J │ K │ L │ ; │   '   │
-├───────┼───┼───┼───┼───┼───┤   ├───┼───┼───┼───┼───┼───────┤
-│ SHIFT │ Z │ X │ C │ V │ B │   │ N │ M │ , │ . │ / │  MEH  │
-└───────┴───┴───┴───┴───┴───┘   └───┴───┴───┴───┴───┴───────┘
-           ┌─────┬──────┬────────────┐ ┌────────────┬──────┬─────────┐
-           │ GUI │ MO 1 │  ENT / L4  │ │  SPC / L5  │ MO 2 │  HYPER  │
-           └─────┴──────┴────────────┘ └────────────┴──────┴─────────┘
+ ESC    Q       W       E       R       T            Y     U       I       O       P       BSPC
+ TAB    A/SFT   S/CTL   D/ALT   F/GUI   G            H     J/GUI   K/ALT   L/CTL   ;/SFT   '
+ SFT*   Z       X       C       V       B            N     M       ,       .       /       MEH
+                GUI     MO1     ENT/L4               SPC/L5  MO2    HYPER
 ```
 
-**Key details:**
+- **Home-row mods** (hold) — opposite-hand trigger only (`hold-trigger-key-positions`):
+  - Left: `A`=Shift, `S`=Ctrl, `D`=Alt, `F`=Cmd(GUI)
+  - Right: `J`=Cmd(GUI), `K`=Alt, `L`=Ctrl, `;`=Shift
+  - Mods are side-appropriate (`LGUI/LALT/...` left, `RGUI/RALT/...` right).
+- `SFT*` (outer-left pinky) = tap-dance: **tap = Shift, double-tap = Caps Word**.
+- `MEH` = `LS(LC(LALT))`, `HYPER` = `LS(LC(LA(LGUI)))`.
+- ENTER and SPACE are layer-taps (tap = key, hold = layer).
 
-| Key | ZMK binding | Notes |
-|---|---|---|
-| ESC (outer-L row 0) | `&kp ESC` | was TAB |
-| TAB (outer-L row 1) | `&kp TAB` | was LCTRL |
-| SHIFT (outer-L row 2) | `&td_shift` | tap = LSHFT, double-tap = CAPS_WORD |
-| MEH (outer-R row 2) | `&kp LS(LC(LALT))` | was ESC |
-| ENT / L4 (left outer thumb) | `&lt 4 RET` | tap = ENTER, hold = layer 4 |
-| SPC / L5 (right inner thumb) | `&lt 5 SPACE` | tap = SPACE, hold = layer 5 |
-| HYPER (right outer thumb) | `&kp LS(LC(LA(LGUI)))` | was RALT |
-| MO 1 (left inner thumb) | `&mo 1` | unchanged |
-| MO 2 (right inner thumb) | `&mo 2` | unchanged |
-| GUI (left outer thumb) | `&kp LGUI` | unchanged |
+---
 
-**Combos (global — active on all layers):**
+## Layer 1 — SYMBOL ✅ (hold MO 1)
+
+```
+  €     !     @     #     $     %             ^     &     *     _     ;     =
+  §     `     ~     {     (     [             :    CMD   OPT   CTL   SFT    +
+        <     >     }     )     ]             |     "     \           ?     -
+```
+
+- Outer-right column (top→bottom): `= + -`.
+- `?` sits at the column where `/` lives on BASE.
+- `CMD OPT CTL SFT` (right home row) are **sticky mods** (`&sk LGUI/LALT/LCTRL/LSHFT`).
+- `€` = `LA(LS(N2))`, `§` = `LA(N6)` — **Mac US-layout** Option combos.
+- Empty cells (`&trans`) at: outer-left rows 0/1 untouched? No — outer-left top two are `€`/`§`; bottom-left and the gap at row 2 / C10 are transparent.
+
+---
+
+## Layer 2 — NUMBER ✅ (hold MO 2)
+
+```
+ RGB                 PREV  NEXT  PLAY               7     8     9           =
+       BRI-  BRI+   VOL-  VOL+  MUTE                4     5     6           +
+ BTCLR BT1   BT2    BT3   BT4   STUD          0     1     2     3           -
+```
+
+- Right hand = **numpad**: `u i o`=7 8 9, `j k l`=4 5 6, `m , .`=1 2 3, `n`=0.
+- `= + -` outer-right column (matches SYMBOL).
+- Left hand:
+  - `Q`=RGB toggle
+  - `E/R` = prev/next track, `T` = play/pause, `G` = mute
+  - `A/S` = brightness down/up, `D/F` = volume down/up
+  - Bottom row: `BT_CLR`, `BT1–BT4` (`&bt BT_SEL 0–3`), `B` = `&studio_unlock`
+
+---
+
+## Layer 3 — NAV ✅ (MO1 + MO2 tri-layer)
+
+```
+                                              HOME  PGDN  PGUP  END
+       SFT   CTL   ALT   CMD                  ←     ↓     ↑     →
+                                              SOL   W←    W→    EOL
+```
+
+- Right hand: `hjkl` = arrows; `u/i` = PgDn/PgUp; `y/o` = Home/End.
+- `n/.` = start/end of line (`Cmd+Left` / `Cmd+Right`); `m/,` = word left/right (`Opt+Left` / `Opt+Right`).
+- Left home row = **plain hold mods** (`&kp LSHFT/LCTRL/LALT/LGUI`) for select-while-arrowing.
+- Everything else transparent.
+
+---
+
+## Layer 4 — MOUSE ✅ (hold ENTER thumb)
+
+```
+                                              MS←   MS↓   MS↑   MS→
+             RCLK  LCLK
+                                              SCL↓  SCL↑
+```
+
+- Right hand `hjkl` = mouse move (`&mmv MOVE_LEFT/DOWN/UP/RIGHT`).
+- `m/,` = scroll down/up (`&mwh SCROLL_DOWN/UP`).
+- `D` = right click (`&mkp RCLK`), `F` = left click (`&mkp LCLK`).
+- Requires `CONFIG_ZMK_POINTING=y` (set in `.conf`).
+
+---
+
+## Layer 5 — FN ✅ (hold SPACE thumb)
+
+Reserved — all `&trans` for now. Free to fill later.
+
+---
+
+## Global combos ✅
 
 | Keys | Positions | Output |
 |---|---|---|
@@ -118,109 +133,25 @@ All keys are `&trans` (transparent / unused).
 | I + O | 8, 9 | BSPC |
 | , + . | 32, 33 | ENTER |
 
-**New ZMK behaviors needed:**
-
-```c
-// Tap-dance: tap = SHIFT, double-tap = Caps Word
-td_shift: tap_dance_shift {
-    compatible = "zmk,behavior-tap-dance";
-    #binding-cells = <0>;
-    tapping-term-ms = <200>;
-    bindings = <&kp LSHFT>, <&caps_word>;
-};
-
-// Tri-layer: holding MO 1 + MO 2 activates layer 3
-conditional_layers {
-    compatible = "zmk,conditional-layers";
-    tri_layer {
-        if-layers = <1 2>;
-        then-layer = <3>;
-    };
-};
-```
+(`timeout-ms = 50`.)
 
 ---
 
-### Layer 1 — _TBD_ (hold MO 1)
+## Custom behaviors ✅
 
-> **To be decided** — what goes here?
-
-Common options: number row, F-keys, left-hand numbers + right-hand nav, …
-
----
-
-### Layer 2 — _TBD_ (hold MO 2)
-
-> **To be decided** — what goes here?
-
-Common options: symbols, brackets/operators, …
+- `hml` / `hmr` — home-row-mod hold-taps (balanced flavor, `tapping-term 200`, `quick-tap 175`, `require-prior-idle 150`, opposite-hand `hold-trigger-key-positions`, `hold-trigger-on-release`).
+- `td_shift` — tap-dance: Shift / Caps Word.
+- `conditional_layers` — `if-layers <1 2> then-layer <3>`.
 
 ---
 
-### Layer 3 — _TBD_ (tri-layer: MO 1 + MO 2)
+## Build / flash
 
-> **To be decided** — activated only when both MO 1 and MO 2 are held.
+1. Commit + push → GitHub Actions builds firmware (`.uf2`) automatically.
+2. Download artifacts from the Actions run.
+3. Flash each half (bootloader = double-tap reset, or BOOT key on NUMBER layer is **not** mapped — use physical reset).
+4. Test, iterate.
 
-Common use: system/config (BT, RGB, reset, boot) — keep dangerous keys behind a two-hand chord.
+## Status
 
----
-
-### Layer 4 — _TBD_ (hold ENTER thumb)
-
-> **To be decided** — what goes here?
-
----
-
-### Layer 5 — _TBD_ (hold SPACE thumb)
-
-> **To be decided** — what goes here?
-
----
-
-### Layers 6–8 — EXTRA 4–6
-
-_Keep empty for now, decide later._
-
----
-
-## ZMK Cheat Sheet (common bindings)
-
-| Binding | Meaning |
-|---|---|
-| `&kp X` | Key press |
-| `&mo N` | Momentary layer N (hold) |
-| `&lt N X` | Layer-tap: hold = layer N, tap = key X |
-| `&mt MOD X` | Mod-tap: hold = modifier, tap = key X |
-| `&td_NAME` | Tap-dance (custom behavior) |
-| `&caps_word` | Caps Word (capitalises until non-alpha key) |
-| `&tog N` | Toggle layer N |
-| `&to N` | Switch to layer N permanently |
-| `&trans` | Transparent (fall through to layer below) |
-| `&none` | Blocked (do nothing) |
-| `&bt BT_SEL N` | Select Bluetooth profile N (0–4) |
-| `&bt BT_CLR` | Clear current BT pairing |
-| `&rgb_ug RGB_TOG` | Toggle RGB underglow |
-| `&sys_reset` | Soft reset |
-| `&bootloader` | Enter bootloader (for flashing) |
-| `LS(LC(LALT))` | MEH modifier chord |
-| `LS(LC(LA(LGUI)))` | HYPER modifier chord |
-
----
-
-## Implementation Order
-
-1. ~~Layer 0~~ ✅ decided
-2. Decide layers 1–5 (step by step)
-3. Edit `config/piantor_pro_bt.keymap`
-4. Commit & push → GitHub Actions will build firmware
-5. Flash and test
-
----
-
-## Open Questions
-
-- [ ] Layer 1 purpose and contents?
-- [ ] Layer 2 purpose and contents?
-- [ ] Layer 3 purpose and contents (tri-layer)?
-- [ ] Layer 4 purpose and contents (ENTER-hold)?
-- [ ] Layer 5 purpose and contents (SPACE-hold)?
+All six layers + combos + behaviors implemented in `config/piantor_pro_bt.keymap`. ✅
