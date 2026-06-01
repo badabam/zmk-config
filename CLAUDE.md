@@ -29,11 +29,12 @@ file is the quick pickup summary.
 | # | Name | Reached by | Gist |
 |---|---|---|---|
 | 0 | BASE | default | QWERTY + home-row mods + tap-dance Shift/CapsWord |
-| 1 | SYMBOL | hold MO1 (L inner thumb) | symbols, `€`/`§`, sticky mods, `=+-` outer-right |
-| 2 | NUMBER | hold MO2 (R inner thumb) | right-hand numpad, media/BT/RGB on left |
-| 3 | NAV | R outer thumb (`&mo NAV`) or MO1+MO2 tri-layer | vim arrows, page/home/end, word/line jumps |
-| 4 | MOUSE | hold ENTER thumb (`&lt 4`, L middle) | mouse move on hjkl, scroll, click |
-| 5 | FN | hold SPACE thumb (`&lt 5`, R middle) | reserved, empty |
+| 1 | SYMBOL | hold L inner thumb (`&mo SYM`) | symbols, `€`/`§`, sticky mods, `=+-` outer-right |
+| 2 | NAV | combo: R mid + R outer thumbs together | vim arrows, page/home/end, word/line jumps |
+| 3 | NUMBER | hold both inner thumbs (tri-layer via HELPER) | right-hand numpad, media/BT/RGB on left |
+| 4 | MOUSE | hold R outer thumb (`&mo MOUSE`) | mouse move on hjkl, scroll, click |
+| 5 | FN | hold L outer thumb (`&mo FN`) | reserved, empty |
+| 6 | HELPER | R inner thumb — transparent, only for NUMBER tri-layer | (no direct use) |
 
 ## Conventions & facts
 

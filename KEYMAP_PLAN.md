@@ -25,13 +25,17 @@
 | # | Name | Reached by |
 |---|---|---|
 | 0 | BASE | default |
-| 1 | SYMBOL | hold `MO 1` (left **inner** thumb) |
-| 2 | NUMBER | hold `MO 2` (right **inner** thumb) |
-| 3 | NAV | right **outer** thumb (`&mo NAV`), or tri-layer: hold `MO 1` + `MO 2` |
-| 4 | MOUSE | hold ENTER thumb (`&lt 4 RET`, left **middle** thumb) |
-| 5 | FN | hold SPACE thumb (`&lt 5 SPACE`, right **middle** thumb) — **reserved/empty** |
+| 1 | SYMBOL | hold left **inner** thumb (`&mo SYM`) |
+| 2 | NAV | combo: press right **middle** + right **outer** thumbs simultaneously |
+| 3 | NUMBER | hold both **inner** thumbs together (L-inner `&mo SYM` + R-inner `&mo HELPER` → tri-layer) |
+| 4 | MOUSE | hold right **outer** thumb (`&mo MOUSE`) |
+| 5 | FN | hold left **outer** thumb (`&mo FN`) — **reserved/empty** |
+| 6 | HELPER | internal — transparent pass-through; only purpose is tri-layer trigger with SYM |
 
-Thumb row (base): `GUI · ENT(L4) · MO1  ‖  MO2 · SPC(L5) · NAV`
+Thumb row (base): `FN · RET · SYM  ‖  HELPER · SPC · MOUSE`
+
+- **NAV**: press R-mid (SPC) + R-outer (MOUSE key) together within 100 ms → combo fires `&mo NAV`, suppressing both SPACE and MOUSE individually.
+- **NUMBER**: hold L-inner (SYM) + R-inner (HELPER) → conditional-layers fires NUM on top.
 
 ---
 
@@ -41,7 +45,7 @@ Thumb row (base): `GUI · ENT(L4) · MO1  ‖  MO2 · SPC(L5) · NAV`
  ESC    Q       W       E       R       T            Y     U       I       O       P       BSPC
  TAB    A/SFT   S/CTL   D/ALT   F/GUI   G            H     J/GUI   K/ALT   L/CTL   ;/SFT   '
  SFT*   Z       X       C       V       B            N     M       ,       .       /       MEH
-                GUI    ENT/L4   MO1                   MO2   SPC/L5   NAV
+                FN     RET     SYM                HELPER  SPC    MOUSE
 ```
 
 - **Home-row mods** (hold) — opposite-hand trigger only (`hold-trigger-key-positions`):
@@ -49,12 +53,12 @@ Thumb row (base): `GUI · ENT(L4) · MO1  ‖  MO2 · SPC(L5) · NAV`
   - Right: `J`=Cmd(GUI), `K`=Alt, `L`=Ctrl, `;`=Shift
   - Mods are side-appropriate (`LGUI/LALT/...` left, `RGUI/RALT/...` right).
 - `SFT*` (outer-left pinky) = tap-dance: **tap = Shift, double-tap = Caps Word**.
-- `MEH` = `LS(LC(LALT))`, `HYPER` = `LS(LC(LA(LGUI)))`.
-- ENTER and SPACE are layer-taps (tap = key, hold = layer).
+- `MEH` = `LS(LC(LALT))`.
+- RET and SPC are plain tap keys; layer switching is on the other four thumbs.
 
 ---
 
-## Layer 1 — SYMBOL ✅ (hold MO 1)
+## Layer 1 — SYMBOL ✅ (hold L-inner thumb)
 
 ```
   €     !     @     #     $     %             ^     &     *     _     ;     =

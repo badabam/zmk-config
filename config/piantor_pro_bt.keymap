@@ -11,14 +11,15 @@
 #include <dt-bindings/zmk/pointing.h>
 
 // Layer aliases
-#define BASE 0
-#define SYM  1
-#define NUM  2
-#define NAV  3
-#define MOUSE 4
-#define FN   5
+#define BASE   0
+#define SYM    1
+#define NAV    2
+#define NUM    3
+#define MOUSE  4
+#define FN     5
+#define HELPER 6   // transparent; combined with SYM (R-inner) to tri-layer into NUM
 
-// Mac modifier chords for the outer thumb keys
+// Mac modifier chords
 #define MEH   LS(LC(LALT))         // Shift+Ctrl+Alt
 #define HYPER LS(LC(LA(LGUI)))     // Shift+Ctrl+Alt+Gui
 
@@ -65,12 +66,12 @@
         };
     };
 
-    // Holding SYM (1) + NUM (2) together activates NAV (3).
+    // Holding L-inner (SYM) + R-inner (HELPER) together activates NUM (3).
     conditional_layers {
         compatible = "zmk,conditional-layers";
-        tri_layer {
-            if-layers = <SYM NUM>;
-            then-layer = <NAV>;
+        tri_layer_num {
+            if-layers = <SYM HELPER>;
+            then-layer = <NUM>;
         };
     };
 
@@ -97,6 +98,11 @@
             key-positions = <32 33>;
             bindings = <&kp RET>;
         };
+        combo_nav {        // R-mid + R-outer thumbs (40 + 41)
+            timeout-ms = <100>;
+            key-positions = <40 41>;
+            bindings = <&mo NAV>;
+        };
     };
 
     keymap {
@@ -104,26 +110,26 @@
 
         default_layer {
             display-name = "BASE";
-            // ------------------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------------
             // | ESC |   Q   |   W   |   E   |   R   | T |   Y |   U   |   I   |   O   |   P   | BSPC |
             // | TAB | A/SFT | S/CTL | D/ALT | F/GUI | G |   H | J/GUI | K/ALT | L/CTL | ;/SFT |  '   |
             // | SFT |   Z   |   X   |   C   |   V   | B |   N |   M   |   ,   |   .   |   /   | MEH  |
-            //                       | GUI | ENT/L4 | MO1 | MO2 | SPC/L5 | NAV |
+            //                         | FN | RET | SYM |   HELPER | SPC | MOUSE |
             bindings = <
-                &kp ESC    &kp Q         &kp W         &kp E         &kp R         &kp T      &kp Y &kp U         &kp I         &kp O          &kp P           &kp BSPC
-                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D       &hml LGUI F   &kp G      &kp H &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI &kp SQT
-                &td_shift  &kp Z         &kp X         &kp C             &kp V         &kp B      &kp N &kp M         &kp COMMA     &kp DOT        &kp FSLH        &kp MEH
-                                                       &kp LGUI &lt MOUSE RET &mo SYM    &mo NUM &lt FN SPACE &mo NAV
+                &kp ESC    &kp Q         &kp W         &kp E        &kp R        &kp T      &kp Y &kp U         &kp I         &kp O          &kp P           &kp BSPC
+                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F  &kp G      &kp H &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI &kp SQT
+                &td_shift  &kp Z         &kp X         &kp C        &kp V        &kp B      &kp N &kp M         &kp COMMA     &kp DOT        &kp FSLH        &kp MEH
+                                                        &mo FN  &kp RET  &mo SYM    &mo HELPER  &kp SPACE  &mo MOUSE
             >;
         };
 
         sym_layer {
             display-name = "SYMBOL";
-            // ------------------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------------
             // |  € | ! | @ | # | $ | % |   | ^ |  &  |  *  |  _  |   ;   | = |
             // |  § | ` | ~ | { | ( | [ |   | : | CMD | OPT | CTL | SHIFT | + |
             // |    | < | > | } | ) | ] |   | | |  "  |  \  |     |   ?   | - |
-            //                | GUI | ENT | (MO1) | MO2 | SPC | NAV |
+            //                    | FN | RET | (SYM) |   HELPER | SPC | MOUSE |
             bindings = <
                 &kp LA(LS(N2)) &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET &kp AMPS  &kp ASTRK &kp UNDER &kp SEMI  &kp EQUAL
                 &kp LA(N6)     &kp GRAVE &kp TILDE &kp LBRC  &kp LPAR  &kp LBKT     &kp COLON &sk LGUI  &sk LALT  &sk LCTRL &sk LSHFT &kp PLUS
@@ -132,13 +138,28 @@
             >;
         };
 
+        nav_layer {
+            display-name = "NAV";
+            // -----------------------------------------------------------------------------------------
+            // |   |     |     |     |     |   |   | HOME | PGDN | PGUP | END |   |   |
+            // |   | SFT | CTL | ALT | CMD |   |   |  ←   |  ↓   |  ↑   |  →  |   |   |
+            // |   |     |     |     |     |   |   | SOL  | W←   | W→   | EOL |   |   |
+            //                    | FN | RET | SYM |   HELPER | (SPC+MOUSE combo) |
+            bindings = <
+                &trans &trans    &trans    &trans   &trans   &trans    &kp HOME       &kp PG_DN    &kp PG_UP     &kp END        &trans &trans
+                &trans &kp LSHFT &kp LCTRL &kp LALT &kp LGUI &trans    &kp LEFT       &kp DOWN     &kp UP        &kp RIGHT      &trans &trans
+                &trans &trans    &trans    &trans   &trans   &trans    &kp LG(LEFT)   &kp LA(LEFT) &kp LA(RIGHT) &kp LG(RIGHT)  &trans &trans
+                                                    &trans &trans &trans    &trans &trans &trans
+            >;
+        };
+
         num_layer {
             display-name = "NUMBER";
-            // ------------------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------------
             // | RGB |     |     | PREV | NEXT | PLAY |   |   | 7 | 8 | 9 |   | = |
             // |     | BRI-| BRI+| VOL- | VOL+ | MUTE |   |   | 4 | 5 | 6 |   | + |
             // |BTCLR| BT1 | BT2 | BT3  | BT4  | STUD |   | 0 | 1 | 2 | 3 |   | - |
-            //                   | GUI | ENT | MO1 | (MO2) | (SPC) | NAV |
+            //                    | FN | RET | (SYM+HELPER tri-layer) |
             bindings = <
                 &rgb_ug RGB_TOG &trans          &trans          &kp C_PREV   &kp C_NEXT   &kp C_PP        &trans &kp N7 &kp N8 &kp N9 &trans &kp EQUAL
                 &trans          &kp C_BRI_DN    &kp C_BRI_UP    &kp C_VOL_DN &kp C_VOL_UP &kp C_MUTE      &trans &kp N4 &kp N5 &kp N6 &trans &kp PLUS
@@ -147,39 +168,36 @@
             >;
         };
 
-        nav_layer {
-            display-name = "NAV";
-            // ------------------------------------------------------------------------------------------
-            // |   |     |     |     |     |   |   | HOME | PGDN | PGUP | END |   |   |
-            // |   | SFT | CTL | ALT | CMD |   |   |  ←   |  ↓   |  ↑   |  →  |   |   |
-            // |   |     |     |     |     |   |   | SOL  | W←   | W→   | EOL |   |   |
-            //               | GUI | ENT | (MO1) | (MO2) | SPC | (NAV) |
-            bindings = <
-                &trans &trans    &trans    &trans   &trans   &trans    &kp HOME       &kp PG_DN   &kp PG_UP    &kp END        &trans &trans
-                &trans &kp LSHFT &kp LCTRL &kp LALT &kp LGUI &trans    &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT      &trans &trans
-                &trans &trans    &trans    &trans   &trans   &trans    &kp LG(LEFT)   &kp LA(LEFT) &kp LA(RIGHT) &kp LG(RIGHT) &trans &trans
-                                                     &trans &trans &trans    &trans &trans &trans
-            >;
-        };
-
         mouse_layer {
             display-name = "MOUSE";
-            // ------------------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------------
             // |   | BOOT | RST  |      |      |   |   |     |     |     |     |   |   |
             // |   |      |      | RCLK | LCLK |   |   | MS← | MS↓ | MS↑ | MS→ |   |   |
             // |   |      |      |      |      |   |   | SCL↓| SCL↑|     |     |   |   |
-            //               | GUI | (ENT) | MO1 | MO2 | SPC | NAV |
+            //                    | FN | RET | SYM |   HELPER | SPC | (MOUSE) |
             bindings = <
                 &trans &bootloader &sys_reset &trans      &trans      &trans    &trans          &trans          &trans         &trans          &trans &trans
-                &trans &trans &trans &mkp RCLK   &mkp LCLK   &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &trans
-                &trans &trans &trans &trans      &trans      &trans    &msc SCRL_DOWN  &msc SCRL_UP   &trans         &trans          &trans &trans
-                                                 &trans &trans &trans    &trans &trans &trans
+                &trans &trans      &trans     &mkp RCLK   &mkp LCLK   &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &trans
+                &trans &trans      &trans     &trans      &trans      &trans    &msc SCRL_DOWN  &msc SCRL_UP    &trans         &trans          &trans &trans
+                                                          &trans &trans &trans    &trans &trans &trans
             >;
         };
 
         fn_layer {
             display-name = "FN";
-            // Reserved (SPACE-hold). Empty for now.
+            // Reserved. Empty for now.
+            bindings = <
+                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
+                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
+                                     &trans &trans &trans  &trans &trans &trans
+            >;
+        };
+
+        helper_layer {
+            display-name = "HELPER";
+            // Transparent pass-through. Activating SYM + HELPER together
+            // triggers the NUM tri-layer via conditional_layers.
             bindings = <
                 &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
                 &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
