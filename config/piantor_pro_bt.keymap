@@ -28,9 +28,7 @@
     };
 
     behaviors {
-        // Home-row mod for the LEFT half: only triggers the hold when a key
-        // on the RIGHT half (or a thumb) is pressed, so same-hand rolls type
-        // letters instead of firing modifiers.
+        // Home-row mod — LEFT half (opposite-hand trigger only)
         hml: home_row_mod_left {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -43,7 +41,7 @@
             hold-trigger-on-release;
         };
 
-        // Home-row mod for the RIGHT half: mirror of hml.
+        // Home-row mod — RIGHT half (mirror of hml)
         hmr: home_row_mod_right {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -56,12 +54,81 @@
             hold-trigger-on-release;
         };
 
-        // Outer-left pinky: tap = Shift, double-tap = Caps Word.
+        // Outer-left pinky: tap = Shift, double-tap = Caps Word
         td_shift: tap_dance_shift {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
             bindings = <&kp LSHFT>, <&caps_word>;
+        };
+
+        // Generic tap-preferred hold-tap for simple &kp hold+tap (used for ß)
+        ht: tap_hold {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        // German umlaut macros (macOS US QWERTY: Option+U dead key, then base letter)
+        macro_ae: macro_ae {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp A>;
+        };
+        macro_oe: macro_oe {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp O>;
+        };
+        macro_ue: macro_ue {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp U>;
+        };
+        macro_AE: macro_AE {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp LS(A)>;
+        };
+        macro_OE: macro_OE {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp LS(O)>;
+        };
+        macro_UE: macro_UE {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(U)>, <&kp LS(U)>;
+        };
+
+        // Umlaut hold-taps: hold = umlaut macro (0 cells), tap = &kp (1 cell)
+        // Total #binding-cells = 0+1 = 1; used as e.g. &ht_ue U
+        ht_ae: hold_tap_ae {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            require-prior-idle-ms = <150>;
+            bindings = <&macro_ae>, <&kp>;
+        };
+        ht_oe: hold_tap_oe {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            require-prior-idle-ms = <150>;
+            bindings = <&macro_oe>, <&kp>;
+        };
+        ht_ue: hold_tap_ue {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <1>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <280>;
+            require-prior-idle-ms = <150>;
+            bindings = <&macro_ue>, <&kp>;
         };
     };
 
@@ -105,14 +172,14 @@
         default_layer {
             display-name = "BASE";
             // -----------------------------------------------------------------------------------------
-            // | ESC |   Q   |   W   |   E   |   R   | T |   Y |   U   |   I   |   O   |   P   | BSPC |
-            // | TAB | A/SFT | S/CTL | D/ALT | F/GUI | G |   H | J/GUI | K/ALT | L/CTL | ;/SFT |  '   |
-            // | SFT |   Z   |   X   |   C   |   V   | B |   N |   M   |   ,   |   .   |   /   | MEH  |
+            // | ESC |   Q   |   W   |   E   |   R   | T |   Y | U/ü | I | O/ö |   P   | BSPC |
+            // | TAB | A/SFT | S/CTL | D/ALT | F/GUI | G |   H | J/GUI | K/ALT | L/CTL | ;/SFT | '/ä |
+            // | SFT |   Z   |   X   |   C   |   V   | B |   N |   M   |   ,   |   .   | //ß  | MEH  |
             //                         | FN | RET | SYM |   NAV | SPC | MOUSE |
             bindings = <
-                &kp ESC    &kp Q         &kp W         &kp E        &kp R        &kp T      &kp Y &kp U         &kp I         &kp O          &kp P           &kp BSPC
-                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F  &kp G      &kp H &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI &kp SQT
-                &td_shift  &kp Z         &kp X         &kp C        &kp V        &kp B      &kp N &kp M         &kp COMMA     &kp DOT        &kp FSLH        &kp MEH
+                &kp ESC    &kp Q         &kp W         &kp E        &kp R        &kp T      &kp Y  &ht_ue U      &kp I         &ht_oe O       &kp P            &kp BSPC
+                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F  &kp G      &kp H  &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI  &ht_ae SQT
+                &td_shift  &kp Z         &kp X         &kp C        &kp V        &kp B      &kp N  &kp M         &kp COMMA     &kp DOT        &ht LA(S) FSLH   &kp MEH
                                                         &mo FN  &kp RET  &mo SYM    &mo NAV  &kp SPACE  &mo MOUSE
             >;
         };
@@ -120,10 +187,9 @@
         sym_layer {
             display-name = "SYMBOL";
             // -----------------------------------------------------------------------------------------
-            // |  € | ! | @ | # | $ | % |   | ^ |  &  |  *  |  _  |   ;   | = |
-            // |  § | ` | ~ | { | ( | [ |   | : | CMD | OPT | CTL | SHIFT | + |
-            // |    | < | > | } | ) | ] |   | | |  "  |  \  |     |   ?   | - |
-            //                    | FN | RET | (SYM) |   HELPER | SPC | MOUSE |
+            // |  € | ! | @ | # | $ | % |   | ^ |  &  |  *  |  _  |  ;  | = |
+            // |  § | ` | ~ | { | ( | [ |   | : | CMD | OPT | CTL | SFT | + |
+            // |    | < | > | } | ) | ] |   | | |  "  |  \  |     |  ?  | - |
             bindings = <
                 &kp LA(LS(N2)) &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET &kp AMPS  &kp ASTRK &kp UNDER &kp SEMI  &kp EQUAL
                 &kp LA(N6)     &kp GRAVE &kp TILDE &kp LBRC  &kp LPAR  &kp LBKT     &kp COLON &sk LGUI  &sk LALT  &sk LCTRL &sk LSHFT &kp PLUS
@@ -138,7 +204,6 @@
             // |   |     |     |     |     |   |   | HOME | PGDN | PGUP | END |   |   |
             // |   | SFT | CTL | ALT | CMD |   |   |  ←   |  ↓   |  ↑   |  →  |   |   |
             // |   |     |     |     |     |   |   | SOL  | W←   | W→   | EOL |   |   |
-            //                    | FN | RET | SYM |   HELPER | (SPC+MOUSE combo) |
             bindings = <
                 &trans &trans    &trans    &trans   &trans   &trans    &kp HOME       &kp PG_DN    &kp PG_UP     &kp END        &trans &trans
                 &trans &kp LSHFT &kp LCTRL &kp LALT &kp LGUI &trans    &kp LEFT       &kp DOWN     &kp UP        &kp RIGHT      &trans &trans
@@ -153,7 +218,6 @@
             // | RGB |     |     | PREV | NEXT | PLAY |   |   | 7 | 8 | 9 |   | = |
             // |     | BRI-| BRI+| VOL- | VOL+ | MUTE |   |   | 4 | 5 | 6 |   | + |
             // |BTCLR| BT1 | BT2 | BT3  | BT4  | STUD |   | 0 | 1 | 2 | 3 |   | - |
-            //                    | FN | RET | (SYM+HELPER tri-layer) |
             bindings = <
                 &rgb_ug RGB_TOG &trans          &trans          &kp C_PREV   &kp C_NEXT   &kp C_PP        &trans &kp N7 &kp N8 &kp N9 &trans &kp EQUAL
                 &trans          &kp C_BRI_DN    &kp C_BRI_UP    &kp C_VOL_DN &kp C_VOL_UP &kp C_MUTE      &trans &kp N4 &kp N5 &kp N6 &trans &kp PLUS
@@ -165,28 +229,30 @@
         mouse_layer {
             display-name = "MOUSE";
             // -----------------------------------------------------------------------------------------
-            // | STU |      |      |      |      |   |   |      | LCLK | RCLK |      |   | STU |
-            // | BOOT|      |      | RCLK | LCLK |   |   | MS←  | MS↓  | MS↑  | MS→  |   | BOOT|
-            // | RST |      |      | SCL↑ | SCL↓ |   |   |      | SCL↓ | SCL↑ |      |   | RST |
-            //                    | FN | RET | SYM |   NAV | SPC | (MOUSE) |
+            // |     |      |      |      |      |   |   |      | LCLK | RCLK |      |   | STU  |
+            // |     |      |      | RCLK | LCLK |   |   | MS←  | MS↓  | MS↑  | MS→  |   | BOOT |
+            // |     |      |      | SCL↑ | SCL↓ |   |   |      | SCL↓ | SCL↑ |      |   | RST  |
+            //                    | (FN) | RET | SYM |   NAV | SPC | (MOUSE) |
             bindings = <
-                &studio_unlock &trans &trans &trans         &trans          &trans    &trans          &mkp LCLK       &mkp RCLK      &trans          &trans &studio_unlock
-                &bootloader    &trans &trans &mkp RCLK      &mkp LCLK       &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &bootloader
-                &sys_reset     &trans &trans &msc SCRL_UP   &msc SCRL_DOWN  &trans    &trans          &msc SCRL_DOWN  &msc SCRL_UP   &trans          &trans &sys_reset
-                                                            &trans &trans &trans    &trans &trans &trans
+                &trans &trans &trans &trans         &trans          &trans    &trans          &mkp LCLK       &mkp RCLK      &trans          &trans &studio_unlock
+                &trans &trans &trans &mkp RCLK      &mkp LCLK       &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &bootloader
+                &trans &trans &trans &msc SCRL_UP   &msc SCRL_DOWN  &trans    &trans          &msc SCRL_DOWN  &msc SCRL_UP   &trans          &trans &sys_reset
+                                                    &trans &trans &trans    &trans &trans &trans
             >;
         };
 
         fn_layer {
             display-name = "FN";
-            // Reserved. Empty for now.
+            // -----------------------------------------------------------------------------------------
+            // | STU |   |   |   |   |   |   |  Ü  |   |  Ö  |   |   |
+            // | BOOT|   |   |   |   |   |   |     |   |     |   | Ä  |
+            // | RST |   |   |   |   |   |   |     |   |     | ß |   |
             bindings = <
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                &trans &trans &trans &trans &trans &trans  &trans &trans &trans &trans &trans &trans
-                                     &trans &trans &trans  &trans &trans &trans
+                &studio_unlock &trans &trans &trans &trans &trans    &trans &macro_UE &trans &macro_OE &trans &trans
+                &bootloader    &trans &trans &trans &trans &trans    &trans &trans    &trans &trans    &trans &macro_AE
+                &sys_reset     &trans &trans &trans &trans &trans    &trans &trans    &trans &trans    &kp LA(S) &trans
+                                                   &trans &trans &trans    &trans &trans &trans
             >;
         };
-
     };
 };
