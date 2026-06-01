@@ -104,11 +104,11 @@
             bindings = <&kp LA(U)>, <&kp LS(U)>;
         };
 
-        // Umlaut hold-taps: hold = umlaut macro (0 cells), tap = &kp (1 cell)
-        // Total #binding-cells = 0+1 = 1; used as e.g. &ht_ue U
+        // Umlaut hold-taps: hold fires the macro (ignores the dummy first param),
+        // tap fires &kp with the second param. Used as e.g. &ht_ue 0 U
         ht_ae: hold_tap_ae {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <280>;
             require-prior-idle-ms = <150>;
@@ -116,7 +116,7 @@
         };
         ht_oe: hold_tap_oe {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <280>;
             require-prior-idle-ms = <150>;
@@ -124,7 +124,7 @@
         };
         ht_ue: hold_tap_ue {
             compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <1>;
+            #binding-cells = <2>;
             flavor = "tap-preferred";
             tapping-term-ms = <280>;
             require-prior-idle-ms = <150>;
@@ -177,8 +177,8 @@
             // | SFT |   Z   |   X   |   C   |   V   | B |   N |   M   |   ,   |   .   | //ß  | MEH  |
             //                         | FN | RET | SYM |   NAV | SPC | MOUSE |
             bindings = <
-                &kp ESC    &kp Q         &kp W         &kp E        &kp R        &kp T      &kp Y  &ht_ue U      &kp I         &ht_oe O       &kp P            &kp BSPC
-                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F  &kp G      &kp H  &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI  &ht_ae SQT
+                &kp ESC    &kp Q         &kp W         &kp E        &kp R        &kp T      &kp Y  &ht_ue 0 U    &kp I         &ht_oe 0 O     &kp P            &kp BSPC
+                &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D  &hml LGUI F  &kp G      &kp H  &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI  &ht_ae 0 SQT
                 &td_shift  &kp Z         &kp X         &kp C        &kp V        &kp B      &kp N  &kp M         &kp COMMA     &kp DOT        &ht LA(S) FSLH   &kp MEH
                                                         &mo FN  &kp RET  &mo SYM    &mo NAV  &kp SPACE  &mo MOUSE
             >;
