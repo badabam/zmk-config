@@ -25,13 +25,13 @@
 | # | Name | Reached by |
 |---|---|---|
 | 0 | BASE | default |
-| 1 | SYMBOL | hold `MO 1` (left inner thumb) |
-| 2 | NUMBER | hold `MO 2` (right inner thumb) |
-| 3 | NAV | tri-layer: hold `MO 1` + `MO 2` together |
-| 4 | MOUSE | hold ENTER thumb (`&lt 4 RET`, left outer thumb) |
-| 5 | FN | hold SPACE thumb (`&lt 5 SPACE`, right inner thumb) — **reserved/empty** |
+| 1 | SYMBOL | hold `MO 1` (left **inner** thumb) |
+| 2 | NUMBER | hold `MO 2` (right **inner** thumb) |
+| 3 | NAV | right **outer** thumb (`&mo NAV`), or tri-layer: hold `MO 1` + `MO 2` |
+| 4 | MOUSE | hold ENTER thumb (`&lt 4 RET`, left **middle** thumb) |
+| 5 | FN | hold SPACE thumb (`&lt 5 SPACE`, right **middle** thumb) — **reserved/empty** |
 
-Thumb row (base): `GUI · MO1 · ENT(L4)  ‖  SPC(L5) · MO2 · HYPER`
+Thumb row (base): `GUI · ENT(L4) · MO1  ‖  MO2 · SPC(L5) · NAV`
 
 ---
 
@@ -41,7 +41,7 @@ Thumb row (base): `GUI · MO1 · ENT(L4)  ‖  SPC(L5) · MO2 · HYPER`
  ESC    Q       W       E       R       T            Y     U       I       O       P       BSPC
  TAB    A/SFT   S/CTL   D/ALT   F/GUI   G            H     J/GUI   K/ALT   L/CTL   ;/SFT   '
  SFT*   Z       X       C       V       B            N     M       ,       .       /       MEH
-                GUI     MO1     ENT/L4               SPC/L5  MO2    HYPER
+                GUI    ENT/L4   MO1                   MO2   SPC/L5   NAV
 ```
 
 - **Home-row mods** (hold) — opposite-hand trigger only (`hold-trigger-key-positions`):
@@ -106,14 +106,15 @@ Thumb row (base): `GUI · MO1 · ENT(L4)  ‖  SPC(L5) · MO2 · HYPER`
 ## Layer 4 — MOUSE ✅ (hold ENTER thumb)
 
 ```
-                                              MS←   MS↓   MS↑   MS→
-             RCLK  LCLK
-                                              SCL↓  SCL↑
+       BOOT  RST
+                   RCLK  LCLK              MS←   MS↓   MS↑   MS→
+                                           SCL↓  SCL↑
 ```
 
-- Right hand `hjkl` = mouse move (`&mmv MOVE_LEFT/DOWN/UP/RIGHT`).
-- `m/,` = scroll down/up (`&mwh SCROLL_DOWN/UP`).
+- Right home row `hjkl` = mouse move (`&mmv MOVE_LEFT/DOWN/UP/RIGHT`).
+- `n/m` = scroll down/up (`&msc SCRL_DOWN/UP`).
 - `D` = right click (`&mkp RCLK`), `F` = left click (`&mkp LCLK`).
+- `Q` = bootloader, `W` = sys reset (top row, left).
 - Requires `CONFIG_ZMK_POINTING=y` (set in `.conf`).
 
 ---

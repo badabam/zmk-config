@@ -108,12 +108,12 @@
             // | ESC |   Q   |   W   |   E   |   R   | T |   Y |   U   |   I   |   O   |   P   | BSPC |
             // | TAB | A/SFT | S/CTL | D/ALT | F/GUI | G |   H | J/GUI | K/ALT | L/CTL | ;/SFT |  '   |
             // | SFT |   Z   |   X   |   C   |   V   | B |   N |   M   |   ,   |   .   |   /   | MEH  |
-            //                       | GUI | MO1 | ENT/L4 | SPC/L5 | MO2 | HYPER |
+            //                       | GUI | ENT/L4 | MO1 | MO2 | SPC/L5 | NAV |
             bindings = <
                 &kp ESC    &kp Q         &kp W         &kp E         &kp R         &kp T      &kp Y &kp U         &kp I         &kp O          &kp P           &kp BSPC
                 &kp TAB    &hml LSHFT A  &hml LCTRL S  &hml LALT D       &hml LGUI F   &kp G      &kp H &hmr RGUI J   &hmr RALT K   &hmr RCTRL L   &hmr RSHFT SEMI &kp SQT
                 &td_shift  &kp Z         &kp X         &kp C             &kp V         &kp B      &kp N &kp M         &kp COMMA     &kp DOT        &kp FSLH        &kp MEH
-                                                       &kp LGUI &mo SYM &lt MOUSE RET    &lt FN SPACE &mo NUM &kp HYPER
+                                                       &kp LGUI &lt MOUSE RET &mo SYM    &mo NUM &lt FN SPACE &mo NAV
             >;
         };
 
@@ -123,7 +123,7 @@
             // |  € | ! | @ | # | $ | % |   | ^ |  &  |  *  |  _  |   ;   | = |
             // |  § | ` | ~ | { | ( | [ |   | : | CMD | OPT | CTL | SHIFT | + |
             // |    | < | > | } | ) | ] |   | | |  "  |  \  |     |   ?   | - |
-            //                | GUI | (MO1) | ENT | SPC | MO2 | HYPER |
+            //                | GUI | ENT | (MO1) | MO2 | SPC | NAV |
             bindings = <
                 &kp LA(LS(N2)) &kp EXCL  &kp AT    &kp HASH  &kp DLLR  &kp PRCNT    &kp CARET &kp AMPS  &kp ASTRK &kp UNDER &kp SEMI  &kp EQUAL
                 &kp LA(N6)     &kp GRAVE &kp TILDE &kp LBRC  &kp LPAR  &kp LBKT     &kp COLON &sk LGUI  &sk LALT  &sk LCTRL &sk LSHFT &kp PLUS
@@ -138,7 +138,7 @@
             // | RGB |     |     | PREV | NEXT | PLAY |   |   | 7 | 8 | 9 |   | = |
             // |     | BRI-| BRI+| VOL- | VOL+ | MUTE |   |   | 4 | 5 | 6 |   | + |
             // |BTCLR| BT1 | BT2 | BT3  | BT4  | STUD |   | 0 | 1 | 2 | 3 |   | - |
-            //                   | GUI | MO1 | ENT | (SPC) | (MO2) | HYPER |
+            //                   | GUI | ENT | MO1 | (MO2) | (SPC) | NAV |
             bindings = <
                 &rgb_ug RGB_TOG &trans          &trans          &kp C_PREV   &kp C_NEXT   &kp C_PP        &trans &kp N7 &kp N8 &kp N9 &trans &kp EQUAL
                 &trans          &kp C_BRI_DN    &kp C_BRI_UP    &kp C_VOL_DN &kp C_VOL_UP &kp C_MUTE      &trans &kp N4 &kp N5 &kp N6 &trans &kp PLUS
@@ -153,7 +153,7 @@
             // |   |     |     |     |     |   |   | HOME | PGDN | PGUP | END |   |   |
             // |   | SFT | CTL | ALT | CMD |   |   |  ←   |  ↓   |  ↑   |  →  |   |   |
             // |   |     |     |     |     |   |   | SOL  | W←   | W→   | EOL |   |   |
-            //               | GUI | (MO1) | ENT | SPC | (MO2) | HYPER |
+            //               | GUI | ENT | (MO1) | (MO2) | SPC | (NAV) |
             bindings = <
                 &trans &trans    &trans    &trans   &trans   &trans    &kp HOME       &kp PG_DN   &kp PG_UP    &kp END        &trans &trans
                 &trans &kp LSHFT &kp LCTRL &kp LALT &kp LGUI &trans    &kp LEFT       &kp DOWN    &kp UP       &kp RIGHT      &trans &trans
@@ -165,13 +165,13 @@
         mouse_layer {
             display-name = "MOUSE";
             // ------------------------------------------------------------------------------------------
-            // |   | BOOT | RST  |      |      |   |   | MS← | MS↓ | MS↑ | MS→ |   |   |
-            // |   |      |      | RCLK | LCLK |   |   |     |     |     |     |   |   |
+            // |   | BOOT | RST  |      |      |   |   |     |     |     |     |   |   |
+            // |   |      |      | RCLK | LCLK |   |   | MS← | MS↓ | MS↑ | MS→ |   |   |
             // |   |      |      |      |      |   |   | SCL↓| SCL↑|     |     |   |   |
-            //               | GUI | (MO1) | (ENT) | SPC | (MO2) | HYPER |
+            //               | GUI | (ENT) | MO1 | MO2 | SPC | NAV |
             bindings = <
-                &trans &bootloader &sys_reset &trans      &trans      &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &trans
-                &trans &trans &trans &mkp RCLK   &mkp LCLK   &trans    &trans          &trans          &trans         &trans          &trans &trans
+                &trans &bootloader &sys_reset &trans      &trans      &trans    &trans          &trans          &trans         &trans          &trans &trans
+                &trans &trans &trans &mkp RCLK   &mkp LCLK   &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &trans
                 &trans &trans &trans &trans      &trans      &trans    &msc SCRL_DOWN  &msc SCRL_UP   &trans         &trans          &trans &trans
                                                  &trans &trans &trans    &trans &trans &trans
             >;
