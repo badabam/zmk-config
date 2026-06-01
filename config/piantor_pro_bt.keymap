@@ -165,15 +165,15 @@
         mouse_layer {
             display-name = "MOUSE";
             // -----------------------------------------------------------------------------------------
-            // |   | BOOT | RST  |      |      |   |   |      | LCLK | RCLK |      |   |   |
-            // |   |      |      | RCLK | LCLK |   |   | MS←  | MS↓  | MS↑  | MS→  |   |   |
-            // |   |      |      | SCL↑ | SCL↓ |   |   |      | SCL↓ | SCL↑ |      |   |   |
+            // | STU |      |      |      |      |   |   |      | LCLK | RCLK |      |   | STU |
+            // | BOOT|      |      | RCLK | LCLK |   |   | MS←  | MS↓  | MS↑  | MS→  |   | BOOT|
+            // | RST |      |      | SCL↑ | SCL↓ |   |   |      | SCL↓ | SCL↑ |      |   | RST |
             //                    | FN | RET | SYM |   NAV | SPC | (MOUSE) |
             bindings = <
-                &trans &bootloader &sys_reset &trans         &trans          &trans    &trans          &mkp LCLK       &mkp RCLK      &trans          &trans &trans
-                &trans &trans      &trans     &mkp RCLK      &mkp LCLK       &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &trans
-                &trans &trans      &trans     &msc SCRL_UP   &msc SCRL_DOWN  &trans    &trans          &msc SCRL_DOWN  &msc SCRL_UP   &trans          &trans &trans
-                                                             &trans &trans &trans    &trans &trans &trans
+                &studio_unlock &trans &trans &trans         &trans          &trans    &trans          &mkp LCLK       &mkp RCLK      &trans          &trans &studio_unlock
+                &bootloader    &trans &trans &mkp RCLK      &mkp LCLK       &trans    &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP   &mmv MOVE_RIGHT &trans &bootloader
+                &sys_reset     &trans &trans &msc SCRL_UP   &msc SCRL_DOWN  &trans    &trans          &msc SCRL_DOWN  &msc SCRL_UP   &trans          &trans &sys_reset
+                                                            &trans &trans &trans    &trans &trans &trans
             >;
         };
 
